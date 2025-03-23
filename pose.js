@@ -10,7 +10,8 @@ function mousePressed() {
 	console.log(poses);
 }
 function setup() {
-	createCanvas(640, 480);
+	let canvas = createCanvas(640, 480);
+	canvas.parent('canvas-container'); 
 	video = createCapture(VIDEO, { flipped: true });
 	video.hide();
 	bodyPose.detectStart(video, gotPoses);
