@@ -4,14 +4,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gesture based drawing board</title>
+    <title>Gestura - Drawing</title>
     <script src="https://cdn.jsdelivr.net/npm/p5@1.11.3/lib/p5.min.js"></script>
     <script src="https://unpkg.com/ml5@1/dist/ml5.js"></script>
-    <script src="drawing.js"></script>
+    <link rel="stylesheet" href="drawing.css">
+    <script src="drawing.js" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 
 <body>
-    <h1>Gesture Based Drawing Board</h1>
+    <nav class="navbar">
+        <button class="logo"><i class="fas fa-infinity " aria-hidden="true"></i> Gestura</button>
+        <ul class="navbar-button-div">
+          <li><button class="navbar-btn" style="color: #507c89;"><i class="fas fa-pen" aria-hidden="true"></i> Drawing</button></li>
+          <li><button class="navbar-btn" onclick="visit_gesture()"><i class="fas fa-hand-sparkles" aria-hidden="true"></i> Gesture</button></li>
+          <li><button class="navbar-btn" onclick="visit_posture()"><i class="fas fa-child" aria-hidden="true"></i> Posture</button></li>
+            <li><button class="navbar-btn" onclick="visit_git()"><i class="fab fa-github" aria-hidden="true"></i> Github</button></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+
+        <div id="canvas-container"></div>
+        <button id="clear-button" onclick="clearCanvas()">Clear Canvas</button>
+
+    </div>
+
+
+<section id="how-to-use" >
+    <h1>How to Use the Gesture-Based Drawing Board</h1>
+    <div class="step">
+      <img src="img/drawing img/camera.png" alt="Step 1: Start the camera">
+      <div class="step-text">
+        <h2>Step 1: Start the Camera</h2>
+        <p>Allow access to your webcam when prompted. The camera feed will appear on the canvas, and the hand tracker will activate.</p>
+      </div>
+    </div>
+    <div class="step">
+      <img src="img/drawing img/11.webp" alt="Step 2: Pinch to Draw">
+      <div class="step-text">
+        <h2>Step 2: Pinch to Draw</h2>
+        <p>Bring your thumb and index finger close together (pinch gesture) to start drawing on the canvas. The black line follows your finger movement.</p>
+      </div>
+    </div>
+    <div class="step">
+      <img src="img/drawing img/12.png" alt="Step 3: Release to Stop">
+      <div class="step-text">
+        <h2>Step 3: Release to Stop</h2>
+        <p>Separate your thumb and index finger to stop drawing. Red circles will appear on your fingertips to show tracking.</p>
+      </div>
+    </div>
+  </section>
+  
+    <div class="footer">
+        <div class="footer1">
+            <h2><i class="fas fa-users"></i> About Us</h2>
+            <p>We are a passionate team of three IT undergraduate students — <strong>Soham Patil</strong>, <strong>Nirav Savla</strong>, and <strong>Yash Kamble</strong> — driven by curiosity and a love for innovation. Our journey began with a shared vision: to blend creativity and technology to build tools that make life easier and more exciting. Each of us brings unique skills to the table — from coding and problem-solving to design and project management.</p>
+            <p><strong>Gestura</strong> is one of our proudest creations, showcasing our ability to turn ideas into reality. We believe in learning by doing, pushing boundaries, and embracing challenges along the way. Our mission is to create meaningful applications that inspire creativity and improve everyday experiences.</p>
+        </div>
+    
+        <div class="footer1">
+            <h2><i class="fas fa-code-branch"></i> GitHub Repository</h2>
+            <p>Our work thrives on collaboration and transparency. Check out our GitHub repository to:</p>
+            <ul>
+                <li><i class="fas fa-search"></i> <strong>Explore the Code:</strong> Dive into the project, see how it works, and learn from our process.</li>
+                <li><i class="fas fa-hands-helping"></i> <strong>Contribute:</strong> Got an idea or found a bug? We welcome contributions and feedback to help improve the project.</li>
+                <li><i class="fas fa-chart-line"></i> <strong>Track Our Progress:</strong> Follow our development journey and stay updated with the latest changes.</li>
+            </ul>
+            <p><i class="fab fa-github"></i> <strong><a href="https://github.com/SAKATA-GINTOKI2003/Gesture-Rcoginition-System-Using-ml5js-and-p5js.git " target="_blank">Visit Our GitHub Repository</a></strong></p>
+        </div>
+    </div>
+    <script>
+        function visit_git() {
+            window.open("https://github.com/SAKATA-GINTOKI2003/Gesture-Rcoginition-System-Using-ml5js-and-p5js.git ", "_self");
+        }
+        function visit_gesture() {
+            window.open("./gesture.html ", "_self");
+        }
+        function visit_posture() {
+            window.open("./pose.html ", "_self");
+        }
+    </script>
 </body>
 
 </html>

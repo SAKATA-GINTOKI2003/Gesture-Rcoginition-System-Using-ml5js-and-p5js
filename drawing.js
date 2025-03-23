@@ -4,24 +4,32 @@ let handPose;
 let painting;
 let prevX = 0,
 	prevY = 0;
+
 function preload() {
 	handPose = ml5.handPose({ flipped: true });
 }
+
 function gotHands(results) {
 	hands = results;
 }
+
 function mousePressed() {
 	console.log(hands);
 }
+
 function setup() {
-	createCanvas(640, 480);
+	let canvas = createCanvas(640, 480);
+	canvas.parent('canvas-container'); 
+
 	painting = createGraphics(640, 480);
 	painting.background(255);
 	painting.clear();
+
 	video = createCapture(VIDEO, { flipped: true });
 	video.hide();
 	handPose.detectStart(video, gotHands);
 }
+
 function draw() {
 	image(video, 0, 0);
 	if (hands.length > 0) {
@@ -45,4 +53,7 @@ function draw() {
 		prevY = y;
 	}
 	image(painting, 0, 0);
+}
+function clearCanvas() {
+    painting.clear();
 }
