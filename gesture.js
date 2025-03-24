@@ -164,7 +164,7 @@ function draw() {
 		text(`Direction : ${handDirection}`, 30, 55);
 		text(`HandType : ${handType}`, 30, 80);
 		text(
-			`Dist from camera ${Math.round(1 / (palmLength * 0.00034))}`,
+			`Dist from camera ${Math.round(1 / (palmLength * 0.00034))}cms`,
 			30,
 			105
 		);
