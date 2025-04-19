@@ -18,9 +18,7 @@ function gotHands(results) {
 }
 
 function mousePressed() {
-	console.log(fingerState);
 	console.log(palmLength);
-	console.log(hand);
 }
 
 function setup() {
@@ -59,6 +57,15 @@ function draw() {
 				hand.keypoints[17].x,
 				hand.keypoints[17].y
 			);
+			if (palmLength < 20) {
+				let fistLength = dist(
+					hand.keypoints[0].x,
+					hand.keypoints[0].y,
+					hand.keypoints[9].x,
+					hand.keypoints[9].y
+				);
+				palmLength = fistLength * 0.8;
+			}
 			for (let [pt1, pt2] of connections) {
 				let ptA = hand.keypoints[pt1];
 				let ptB = hand.keypoints[pt2];
