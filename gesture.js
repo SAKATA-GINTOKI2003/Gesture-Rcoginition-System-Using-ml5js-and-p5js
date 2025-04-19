@@ -3,12 +3,6 @@ let hands = [];
 let hand;
 let handPose;
 let connections;
-let index_curl;
-let midfinger_curl;
-let ringfinger_curl;
-let pinky_curl;
-let thumb_curl;
-let fingerState;
 let handDirection;
 let handDirectionX;
 let handDirectionY;
@@ -26,6 +20,7 @@ function gotHands(results) {
 function mousePressed() {
 	console.log(fingerState);
 	console.log(palmLength);
+	console.log(hand);
 }
 
 function setup() {
@@ -35,7 +30,6 @@ function setup() {
 	video.hide();
 	handPose.detectStart(video, gotHands);
 	connections = handPose.getConnections();
-	// Select the clear button and attach navigation toggle functionality
 	let clearButton = select("#clear-button");
 	clearButton.mousePressed(toggleNavigationMode);
 }
@@ -56,129 +50,135 @@ function toggleNavigationMode() {
 function draw() {
 	image(video, 0, 0);
 	hand = hands[0];
-
 	if (hands.length > 0) {
-		handType = hand.handedness;
-		palmLength = dist(
-			hand.keypoints[5].x,
-			hand.keypoints[5].y,
-			hand.keypoints[17].x,
-			hand.keypoints[17].y
-		);
-		for (let [pt1, pt2] of connections) {
-			let ptA = hand.keypoints[pt1];
-			let ptB = hand.keypoints[pt2];
+		for (let hand of hands) {
+			handType = hand.handedness;
+			palmLength = dist(
+				hand.keypoints[5].x,
+				hand.keypoints[5].y,
+				hand.keypoints[17].x,
+				hand.keypoints[17].y
+			);
+			for (let [pt1, pt2] of connections) {
+				let ptA = hand.keypoints[pt1];
+				let ptB = hand.keypoints[pt2];
+				stroke(0, 255, 0);
+				strokeWeight(5 * palmLength * 0.01);
+				line(ptA.x, ptA.y, ptB.x, ptB.y);
+			}
+			if (hand.confidence > 0.1) {
+				for (let keypoint of hand.keypoints) {
+					fill(255, 0, 0);
+					circle(keypoint.x, keypoint.y, 20 * palmLength * 0.01);
+				}
+			}
+			handDirection = determineHandDirection(9);
+			let fingerState = determineFingerState(hand);
+			textSize(20);
 			stroke(0, 255, 0);
-			strokeWeight(5 * palmLength * 0.01);
-			line(ptA.x, ptA.y, ptB.x, ptB.y);
-		}
-
-		if (hand.confidence > 0.1) {
-			for (let keypoint of hand.keypoints) {
-				fill(255, 0, 0);
-				circle(keypoint.x, keypoint.y, 20 * palmLength * 0.01);
+			strokeWeight(4);
+			fill(255, 0, 0);
+			let x_info = 30;
+			if (handType == "Right") x_info = 420;
+			if (fingerState == "10000") {
+				text("Gesture : Pointing-" + `${handDirection}`, x_info, 30);
+				if (navigationMode) {
+					reDirectTo(handDirection);
+				}
+			} else if (fingerState == "11000") {
+				text("Gesture : Two", x_info, 30);
+			} else if (fingerState == "11100") {
+				text("Gesture : Three", x_info, 30);
+			} else if (fingerState == "11110") {
+				text("Gesture : Four", x_info, 30);
+			} else if (fingerState == "00000") {
+				text("Gesture : Fist", x_info, 30);
+			} else if (fingerState == "11111") {
+				text("Gesture : Five", x_info, 30);
+			} else if (fingerState == "00001") {
+				handDirection = determineHandDirection(4);
+				text("Gesture : Thumbs-" + `${handDirection}`, x_info, 30);
+			} else {
+				text("No Gesture Detected", x_info, 30);
 			}
+			text(`Direction : ${handDirection}`, x_info, 55);
+			text(`HandType : ${handType}`, x_info, 80);
+			text(
+				`Dist from camera ${Math.round(1 / (palmLength * 0.00034))}cms`,
+				x_info,
+				105
+			);
 		}
-
-		handDirection = determineHandDirection(9);
-		index_curl =
-			dist(
-				hand.keypoints[0].x,
-				hand.keypoints[0].y,
-				hand.keypoints[8].x,
-				hand.keypoints[8].y
-			) /
-				palmLength <
-			1.875;
-		midfinger_curl =
-			dist(
-				hand.keypoints[0].x,
-				hand.keypoints[0].y,
-				hand.keypoints[12].x,
-				hand.keypoints[12].y
-			) /
-				palmLength <
-			2.125;
-		ringfinger_curl =
-			dist(
-				hand.keypoints[0].x,
-				hand.keypoints[0].y,
-				hand.keypoints[16].x,
-				hand.keypoints[16].y
-			) /
-				palmLength <
-			1.875;
-		pinky_curl =
-			dist(
-				hand.keypoints[0].x,
-				hand.keypoints[0].y,
-				hand.keypoints[20].x,
-				hand.keypoints[20].y
-			) /
-				palmLength <
-			1.75;
-		thumb_curl =
-			dist(
-				hand.keypoints[0].x,
-				hand.keypoints[0].y,
-				hand.keypoints[4].x,
-				hand.keypoints[4].y
-			) /
-				palmLength <
-			1.5;
-
-		fingerState = [
-			index_curl,
-			midfinger_curl,
-			ringfinger_curl,
-			pinky_curl,
-			thumb_curl,
-		]
-			.map((val) => (val ? "0" : "1"))
-			.join("");
-
-		textSize(20);
-
-		if (fingerState == "10000") {
-			text("Gesture : Pointing-" + `${handDirection}`, 30, 30);
-			if (navigationMode) {
-				reDirectTo(handDirection);
-			}
-		} else if (fingerState == "11000") {
-			text("Gesture : Two", 30, 30);
-		} else if (fingerState == "11100") {
-			text("Gesture : Three", 30, 30);
-		} else if (fingerState == "11110") {
-			text("Gesture : Four", 30, 30);
-		} else if (fingerState == "00000") {
-			text("Gesture : Fist", 30, 30);
-		} else if (fingerState == "11111") {
-			text("Gesture : Five", 30, 30);
-		} else if (fingerState == "00001") {
-			handDirection = determineHandDirection(4);
-			text("Gesture : Thumbs-" + `${handDirection}`, 30, 30);
-		} else {
-			text("No Gesture Detected", 30, 30);
-		}
-
-		text(`Direction : ${handDirection}`, 30, 55);
-		text(`HandType : ${handType}`, 30, 80);
-		text(
-			`Dist from camera ${Math.round(1 / (palmLength * 0.00034))}cms`,
-			30,
-			105
-		);
 	}
 }
-
 function reDirectTo(ref) {
 	if (ref == "up") {
-		window.location.href = "pose.html";
+		window.open("./pose.html", "_self");
 	} else if (ref == "left") {
-		window.location.href = "drawing.html";
+		window.open("./drawing.html", "_self");
 	}
 }
-
+function determineFingerState(hand) {
+	let index_curl =
+		dist(
+			hand.keypoints[0].x,
+			hand.keypoints[0].y,
+			hand.keypoints[8].x,
+			hand.keypoints[8].y
+		) /
+			palmLength <
+		1.875;
+	let midfinger_curl =
+		dist(
+			hand.keypoints[0].x,
+			hand.keypoints[0].y,
+			hand.keypoints[12].x,
+			hand.keypoints[12].y
+		) /
+			palmLength <
+		2.125;
+	let ringfinger_curl =
+		dist(
+			hand.keypoints[0].x,
+			hand.keypoints[0].y,
+			hand.keypoints[16].x,
+			hand.keypoints[16].y
+		) /
+			palmLength <
+		1.875;
+	let pinky_curl =
+		dist(
+			hand.keypoints[0].x,
+			hand.keypoints[0].y,
+			hand.keypoints[20].x,
+			hand.keypoints[20].y
+		) /
+			palmLength <
+		1.75;
+	let thumb_curl =
+		dist(
+			hand.keypoints[5].x,
+			hand.keypoints[5].y,
+			hand.keypoints[4].x,
+			hand.keypoints[4].y
+		) < palmLength &&
+		dist(
+			hand.keypoints[13].x,
+			hand.keypoints[13].y,
+			hand.keypoints[4].x,
+			hand.keypoints[4].y
+		) < palmLength;
+	let fingerState = [
+		index_curl,
+		midfinger_curl,
+		ringfinger_curl,
+		pinky_curl,
+		thumb_curl,
+	]
+		.map((val) => (val ? "0" : "1"))
+		.join("");
+	return fingerState;
+}
 function determineHandDirection(point) {
 	handDirectionX = hand.keypoints[0].x - hand.keypoints[point].x;
 	handDirectionY = hand.keypoints[0].y - hand.keypoints[point].y;
