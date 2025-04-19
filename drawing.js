@@ -19,7 +19,7 @@ function mousePressed() {
 
 function setup() {
 	let canvas = createCanvas(640, 480);
-	canvas.parent('canvas-container'); 
+	canvas.parent("canvas-container");
 
 	painting = createGraphics(640, 480);
 	painting.background(255);
@@ -55,5 +55,5 @@ function draw() {
 	image(painting, 0, 0);
 }
 function clearCanvas() {
-    painting.clear();
+	painting.clear();
 }
