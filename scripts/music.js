@@ -24,7 +24,6 @@ let notes = [
 	"D#4",
 	"C4",
 ];
-// let recording = [];
 let numToFing = new Map([
 	["00000", 0],
 	["10000", 1],
@@ -56,8 +55,6 @@ function setup() {
 	connections = handPose.getConnections();
 	let clearButton = select("#clear-button");
 	clearButton.mousePressed(toggleNavigationMode);
-	let recordButton = select("#record-button");
-	// recordButton.mousePressed(recording);
 	synth = new Tone.Synth().toDestination();
 }
 
@@ -73,7 +70,6 @@ function toggleNavigationMode() {
 		clearButton.style("background-color", "#507c89");
 	}
 }
-// function recording()
 function draw() {
 	image(video, 0, 0);
 	hand = hands[0];
@@ -119,7 +115,6 @@ function draw() {
 		textSize(20);
 		stroke(0, 255, 0);
 		text(`Current Note Playing : ${notes[fingCount]}`, 30, 80);
-		// recording.append(notes[fingCount]);
 	}
 }
 function reDirectTo(ref) {
