@@ -128,7 +128,7 @@ a {
 	background: #f4f4f4;
 	border-radius: 12px;
 	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-	background-image: url("img/bg_drawing.jpg");
+	background-image: url("../img/bg_drawing.jpg");
 	background-size: cover;
 	border: 4px solid #2f3e46;
 	border-width: 5px;
