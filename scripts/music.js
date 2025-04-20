@@ -74,7 +74,7 @@ function draw() {
 	image(video, 0, 0);
 	hand = hands[0];
 	let i = 0;
-	if (hands.length <= 2 && hands.length > 1) {
+	if (hands.length <= 2 && hands.length > 0) {
 		for (let hand of hands) {
 			handType = hand.handedness;
 			palmLength = dist(
@@ -110,18 +110,37 @@ function draw() {
 			hands[i].fingCount = numToFing.get(fingerState);
 			i++;
 		}
-		let fingCount = hands[0].fingCount + hands[1].fingCount;
-		synth.triggerAttackRelease(notes[fingCount], "2n");
+		let hand2Count;
+		if (!hands[1]) {
+			hand2Count = 0;
+		} else {
+			hand2Count = hands[1].fingCount;
+		}
+		let fingCount = hands[0].fingCount + hand2Count;
+		synth.triggerAttackRelease(notes[fingCount], "8n");
 		textSize(20);
 		stroke(0, 255, 0);
 		text(`Current Note Playing : ${notes[fingCount]}`, 30, 80);
+		handDirection = determineHandDirection(9);
+		let fingerState = determineFingerState(hand);
+
+		strokeWeight(4);
+		fill(255, 0, 0);
+		if (navigationMode) {
+			if (fingerState == "10000") {
+				text("Gesture : Pointing-" + `${handDirection}`, 30, 30);
+				reDirectTo(handDirection);
+			}
+		}
 	}
 }
 function reDirectTo(ref) {
 	if (ref == "up") {
-		window.open("./pose.html", "_self");
+		window.open("../gesture.html", "_self");
 	} else if (ref == "left") {
-		window.open("./drawing.html", "_self");
+		window.open("../drawing.html", "_self");
+	} else if (ref == "right") {
+		window.open("../pose.html", "_self");
 	}
 }
 function determineFingerState(hand) {

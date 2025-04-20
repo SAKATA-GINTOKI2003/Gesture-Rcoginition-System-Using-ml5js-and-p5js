@@ -120,9 +120,11 @@ function draw() {
 }
 function reDirectTo(ref) {
 	if (ref == "up") {
-		window.open("./pose.html", "_self");
+		window.open("../pose.html", "_self");
 	} else if (ref == "left") {
-		window.open("./drawing.html", "_self");
+		window.open("../drawing.html", "_self");
+	} else if (ref == "right") {
+		window.open("../music.html", "_self");
 	}
 }
 function determineFingerState(hand) {

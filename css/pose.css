@@ -38,6 +38,9 @@ body {
 .navbar-btn,
 .dropbtn,
 .logo {
+	display: flex;
+	justify-content: space-evenly;
+	align-items: center;
 	height: 4vh;
 	width: 8vw;
 	color: #f2f2f2;
@@ -66,6 +69,7 @@ body {
 	outline: none;
 	width: auto;
 	padding-bottom: 7vh;
+	padding-top: 6vh;
 }
 
 .headerPage {
@@ -101,7 +105,28 @@ a {
 	width: 640px;
 	background-color: #000000;
 }
+#navigation-button {
+	display: block;
+	margin: 15px auto;
+	padding: 10px 20px;
+	font-size: 16px;
+	font-weight: bold;
+	color: white;
+	background: #507c89;
+	border: none;
+	border-radius: 8px;
+	cursor: pointer;
+	transition: background 0.2s, transform 0.1s;
+}
 
+#navigation-button:hover {
+	background: #5a9fb2;
+	transform: scale(1.05);
+}
+
+#navigation-button:active {
+	transform: scale(0.95);
+}
 #how-to-use {
 	max-width: 800px;
 	margin: 40px auto;

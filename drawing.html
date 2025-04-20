@@ -18,22 +18,23 @@
   <nav class="navbar">
     <button class="logo"><i class="fas fa-infinity " aria-hidden="true"></i> Gestura</button>
     <ul class="navbar-button-div">
+      <li><button class="navbar-btn" onclick="visit_music()"><i class="fas fa-music" aria-hidden="true"></i>
+          Music<i class="fas fa-hand-point-right" aria-hidden="true"></i></button></li>
       <li><button class="navbar-btn" style="color: #507c89;"><i class="fas fa-pen" aria-hidden="true"></i>
-          Drawing</button></li>
+          Drawing O</button></li>
       <li><button class="navbar-btn" onclick="visit_gesture()"><i class="fas fa-hand-sparkles" aria-hidden="true"></i>
-          Gesture</button></li>
+          Gesture<i class="fas fa-hand-point-up" aria-hidden="true"></i></button></li>
       <li><button class="navbar-btn" onclick="visit_posture()"><i class="fas fa-child" aria-hidden="true"></i>
-          Posture</button></li>
+          Posture<i class="fas fa-hand-point-left" aria-hidden="true"></i></button></li>
       <li><button class="navbar-btn" onclick="visit_git()"><i class="fab fa-github" aria-hidden="true"></i>
-          Github</button></li>
+          Github<i class="fab fa-github" aria-hidden="true"></i></button></li>
     </ul>
   </nav>
 
   <div class="container">
-
     <div id="canvas-container"></div>
+    <button id="navigation-button" onclick="clearCanvas()">Enable Navigation Mode</button>
     <button id="clear-button" onclick="clearCanvas()">Clear Canvas</button>
-
   </div>
 
 
@@ -104,6 +105,9 @@
     }
     function visit_posture() {
       window.open("./pose.html ", "_self");
+    }
+    function visit_music() {
+      window.open("./music.html ", "_self");
     }
   </script>
 </body>
